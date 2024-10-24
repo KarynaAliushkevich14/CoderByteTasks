@@ -1,45 +1,24 @@
-import java.util.*;
 
 public class LongestCommonPrefix {
 
-
     public String getLongestCommonPrefix (String[] str) {
 
-        int i;
-        int wordNumber = 0;
-        int numberOfWords = str.length;
+        String prefix = str[0];
 
-        Map<Character, Integer> letterPositionMap = new LinkedHashMap<>();
-        String commonPrefix = "";
-
-
-        while (wordNumber < numberOfWords) {
-
-            for (i = 0; i < str[wordNumber].length(); i++) { // {flow, flower, flight}
-                if (wordNumber == 0) {
-                    letterPositionMap.put(str[wordNumber].charAt(i), i);
-                } else {
-                    if (letterPositionMap.containsKey(str[wordNumber].charAt(i))
-                            && letterPositionMap.get(str[wordNumber].charAt(i)) == str[wordNumber].indexOf(str[wordNumber].charAt(i))) {
-                            commonPrefix = commonPrefix + str[wordNumber].charAt(i);
-                    } else {
-                        if (wordNumber == numberOfWords-1) {
-                            return commonPrefix;
-                        }
-                    }
+        for (int i = 0; i < str.length; i++) { // {flow, flower, flight}
+            while (str[i].indexOf(prefix) != 0) {
+                prefix = prefix.substring(0, prefix.length() - 1); // ciągle zmniejszamy prefix dokóki on nie zmieści się w słowie_1,słowie_2 i słowie_3
+                if (prefix.isEmpty()) {
+                    return "";
                 }
-                System.out.println(letterPositionMap);
             }
-            i = 0;
-            wordNumber = wordNumber + 1;
-            commonPrefix = "";
         }
-        return "No common prefix";
+        return prefix;
     }
 
 
     public static void main (String[] args) {
-        String[] str = {"flow", "flower", "flight", "foo", "gfdfg"};
+        String[] str = {"flower", "flow", "flight"};
 
         LongestCommonPrefix longestCommonPrefix = new LongestCommonPrefix();
         System.out.println(longestCommonPrefix.getLongestCommonPrefix(str));
